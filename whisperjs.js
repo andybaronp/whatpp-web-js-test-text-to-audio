@@ -1,23 +1,16 @@
 const fs = require('fs');
 const { OpenAI, toFile } = require('openai');
 
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,  // Asegúrate de tener tu clave API en .env
+});
 // Función para convertir voz a texto usando Whisper
-const voiceToText = async (filePath) => {
+const voiceToText = async (buffer, fileName) => {
   console.log('Iniciando transcripción...');
 
-  if (!fs.existsSync(filePath)) {
-    throw new Error("No se encuentra el archivo");
-  }
-
   try {
-    const client = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,  // Asegúrate de tener tu clave API en .env
-    });
-
-    const buffer = fs.readFileSync(filePath);
-
     const transcription = await client.audio.transcriptions.create({
-      file: await toFile(buffer, filePath),
+      file: await toFile(buffer, fileName),
       model: 'whisper-1',
     });
 

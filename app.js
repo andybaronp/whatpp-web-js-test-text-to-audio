@@ -27,13 +27,12 @@ client.on('message_create', async (message) => {
     const media = await message.downloadMedia();
 
     if (media) {
-      // Guardar el archivo temporalmente
-      const filePath = path.join(__dirname, `temp_audio_${Date.now()}.ogg`);
-      fs.writeFileSync(filePath, media.data, { encoding: 'base64' });
+      // Convertir la media base64 a buffer
+      const buffer = Buffer.from(media.data, 'base64');
 
       try {
-        // Convertir voz a texto usando Whisper
-        const text = await voiceToText(filePath);
+        // Convertir voz a texto usando Whisper, pasándole el buffer directamente
+        const text = await voiceToText(buffer, `audio_${Date.now()}.ogg`);
 
         // Enviar la transcripción de vuelta al chat
         client.sendMessage(message.from, text);
@@ -41,9 +40,6 @@ client.on('message_create', async (message) => {
       } catch (err) {
         console.error('Error al transcribir el audio:', err);
         client.sendMessage(message.from, 'Hubo un error al procesar la nota de voz.');
-      } finally {
-        // Eliminar el archivo temporal
-        fs.unlinkSync(filePath);
       }
     }
   }
