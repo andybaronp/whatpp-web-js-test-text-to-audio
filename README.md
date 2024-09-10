@@ -9,3 +9,7 @@
 Luego el bot responderá a todos los audios transcribiéndolos y regresando el texto.
 
 Puedes ajustarlo como quieras.
+
+## Proximos pasos
+
+Usar Docker para correr sin necesida de la consola.
