@@ -12,6 +12,7 @@ const voiceToText = async (buffer, fileName) => {
     const transcription = await client.audio.transcriptions.create({
       file: await toFile(buffer, fileName),
       model: 'whisper-1',
+      language: 'es',
     });
 
     return transcription.text;
