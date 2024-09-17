@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { OpenAI, toFile } = require('openai');
 
 const client = new OpenAI({

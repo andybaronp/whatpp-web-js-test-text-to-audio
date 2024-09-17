@@ -1,8 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const dotenv = require('dotenv').config();
 const { voiceToText } = require('./whisperjs');
-const fs = require('fs');
-const path = require('path');
 const qrcode = require('qrcode-terminal');
 // Create a new client instance
 const client = new Client(
@@ -23,6 +21,7 @@ client.on('qr', (qr) => {
 });
 
 client.on('message_create', async (message) => {
+
   if (message.type === 'ptt') {  // 'ptt' es el tipo para notas de voz en WhatsApp
     const media = await message.downloadMedia();
 
